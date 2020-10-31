@@ -575,11 +575,13 @@ namespace MajordomoProtocol
         /// <returns>the requested service object</returns>
         private Service ServiceRequired (string serviceName)
         {
-            var svc = m_services.Exists (s => s.Name == serviceName)
-                          ? m_services.Find (s => s.Name == serviceName)
-                          : new Service (serviceName);
-            // add service to the known services
-            m_services.Add (svc);
+            Service svc = m_services.Find(s => s.Name == serviceName);
+            if (svc == null)
+            {
+                svc = new Service(serviceName);
+                // add service to the known services
+                m_services.Add(svc);
+            }
 
             return svc;
         }
